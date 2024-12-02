@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoring System</title>
+    <style>
+        #status {
+            margin: 10px 0;
+            font-weight: bold;
+            color: green;
+        }
+        #timer {
+            margin: 10px 0;
+            font-weight: bold;
+            color: blue;
+        }
+    </style>
+    <script>
+        let timer;
+        let recordingStartTime;
+
+        function updateTimer() {
+            if (recordingStartTime) {
+                const now = Math.floor((new Date()).getTime() / 1000);
+                const elapsed = now - recordingStartTime;
+                document.getElementById('timer').innerText = `Czas nagrywania: ${elapsed} sek.`;
+            }
+        }
+
+        function startMonitoring() {
+            recordingStartTime = Math.floor((new Date()).getTime() / 1000);
+            setInterval(updateTimer, 1000);
+            document.getElementById('status').innerText = "Nagrywanie...";
+        }
+
+        function stopMonitoring() {
+            recordingStartTime = null;
+            document.getElementById('status').innerText = "Monitoring zatrzymany.";
+            document.getElementById('timer').innerText = "";
+        }
+    </script>
+</head>
+<body>
+    <h1>Monitoring System</h1>
+    <button onclick="startMonitoring(); window.location.href='/start'">Start Monitoring</button>
+    <button onclick="stopMonitoring(); window.location.href='/stop'">Stop Monitoring</button>
+    <button onclick="window.open('/live', '_blank')">Live</button>
+
+    <div id="status"></div>
+    <div id="timer"></div>
+
+    <h2>Recordings</h2>
+    <ul>
+        {% for recording in recordings %}
+        <li><a href="{{ url_for('download', filename=recording) }}">{{ recording }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
