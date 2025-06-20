@@ -1,4 +1,4 @@
-# System monitoringu poruszających się obiektów - Raspberry Pi i Flask
+# System monitoringu poruszających się obiektów - Raspberry Pi, Python i Flask
 
 ## 📖 Opis Projektu
 
